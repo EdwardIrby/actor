@@ -1,6 +1,6 @@
 {
   "name": "@dxworks/actor",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "main": "dist/actor.js",
   "module": "src/actor.js",
   "license": "MIT",
@@ -18,12 +18,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dxworks/actor.git"
+    "url": "git+https://github.com/dxworks/oss.git"
   },
   "bugs": {
-    "url": "https://github.com/dxworks/actor/issues"
+    "url": "https://github.com/dxworks/oss/issues"
   },
-  "homepage": "https://github.com/dxworks/actor#readme",
+  "homepage": "https://github.com/dxworks/oss#readme",
   "publishConfig": {
     "access": "public"
   },
@@ -31,7 +31,7 @@
     "build": "npx rollup -c rollup.config.js"
   },
   "dependencies": {
-    "@dxworks/utils": "1.0.0"
+    "@dxworks/utils": "1.0.1"
   },
   "devDependencies": {
     "rollup": "latest",
