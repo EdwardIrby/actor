@@ -17,23 +17,30 @@
  */
 
 import { watchableMessageStore } from './watchableMessageStore.js';
-
+/** @param {function} _init */
 export const actor = _init => {
   const init = _init || (async () => {});
   const initPromise = () => Promise.resolve().then(() => init());
-  return message => (message === 'initPromise'
+  return /** @param {string} message */ message => (message === 'initPromise'
   ? initPromise
   : console.log(`Message not handled: ${message}`));
 };
 
 const messageStore = watchableMessageStore('ACTOR-MESSAGES');
-
-export async function hookup(actorName, _behavior, { purgeExistingMessages = false } = {}) {
+/**
+ * @param {string} actorName The name this actor will listen to.
+ * @param {function} _behavior The actor implementation that can process messages.
+ * @param {boolean} [purgeExistingMessages=false] Whether any messages that arrived before this
+ *    actor was ready should be discarded.
+ * @return {Promise} A promise which, once resolved, provides a callback that can be
+ * invoked to remove this actor from the system.
+ */
+export async function hookup(actorName, _behavior, purgeExistingMessages = false) {
   const behavior = _behavior();
   await behavior('initPromise')();
   messageStore('resetCursor')();
   purgeExistingMessages && await messageStore('popMessages')(actorName);
-  const hookdown = messageStore('subscribe')(actorName, messages => {
+  const hookdown = messageStore('subscribe')(actorName, /** @param {Array} messages */ messages => {
     for (const message of messages) {
       try {
         behavior(message.handler)(message.detail);
@@ -47,12 +54,16 @@ export async function hookup(actorName, _behavior, { purgeExistingMessages = fal
     await messageStore('popMessages')(actorName);
   };
 }
-
+/** @param {string} actorName */
 export const lookup = actorName => {
+  /** @param {string} handler */
   const send = handler => async message => {
     await messageStore('pushMessage')({ recipient: actorName, handler, detail: message });
   };
-  return handler => send(handler);
+  /**
+   * @returns {function}
+   */
+  return send;
 };
 
 export const initializeQueues = async () => {

@@ -7,7 +7,7 @@
   "contributors": [
     {
       "name": "Edward Irby",
-      "email": "edward@castersblues.com",
+      "email": "edward@dx.works",
       "url": "https://twitter.com/edwardirby"
     },
     {
@@ -28,13 +28,17 @@
     "access": "public"
   },
   "scripts": {
+    "test": "npx poi puppet --test src/actor.spec.js --framework mocha ",
     "build": "npx rollup -c rollup.config.js"
   },
   "dependencies": {
-    "@dxworks/utils": "1.0.1"
+    "@dxworks/utils": "^1.0.1"
   },
   "devDependencies": {
-    "rollup": "latest",
-    "rollup-plugin-cleanup": "latest"
+    "mocha": "latest",
+    "chai": "latest",
+    "puppeteer": "latest",
+    "poi": "latest",
+    "@poi/plugin-puppet": "latest"
   }
 }
