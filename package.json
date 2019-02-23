@@ -18,12 +18,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dxworks/oss.git"
+    "url": "git+https://github.com/dxworks/actor.git"
   },
   "bugs": {
-    "url": "https://github.com/dxworks/oss/issues"
+    "url": "https://github.com/dxworks/actor/issues"
   },
-  "homepage": "https://github.com/dxworks/oss#readme",
+  "homepage": "https://github.com/dxworks/actor#readme",
   "publishConfig": {
     "access": "public"
   },
