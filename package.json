@@ -30,7 +30,8 @@
   "scripts": {
     "test": "npx poi puppet --test src/actor.spec.js --framework mocha ",
     "build": "npx rollup -c rollup.config.js",
-    "lint": "npx eslint ./src"
+    "lint": "npx eslint ./src",
+    "prepublish": "npm run build"
   },
   "engines": {
     "node": ">=10.15.1"
