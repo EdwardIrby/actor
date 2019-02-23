@@ -177,19 +177,19 @@ export const watchableMessageStore = _name => {
   );
   return /** @param {string} message */ message => (
     message === 'resetCursor'
-    ? resetCursor
-    : message === 'init'
-    ? init
-    : message === 'popMessages'
-    ? popMessages
-    : message === 'pushMessage'
-    ? pushMessage
-    : message === 'subscribeWithBroadcastChannel'
-    ? subscribeWithBroadcastChannel
-    : message === 'subscribeWithPolling'
-    ? subscribeWithPolling
-    : message === 'subscribe'
-    ? subscribe
-    : console.log(`Message not handled: ${message}`)
+      ? resetCursor
+      : message === 'init'
+      ? init
+      : message === 'popMessages'
+      ? popMessages
+      : message === 'pushMessage'
+      ? pushMessage
+      : message === 'subscribeWithBroadcastChannel'
+      ? subscribeWithBroadcastChannel
+      : message === 'subscribeWithPolling'
+      ? subscribeWithPolling
+      : message === 'subscribe'
+      ? subscribe
+      : console.log(`Message not handled: ${message}`)
   );
 };
