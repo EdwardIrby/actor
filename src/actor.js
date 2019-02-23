@@ -23,7 +23,7 @@ export const actor = _init => {
   const initPromise = () => Promise.resolve().then(() => init());
   return /** @param {string} message */ message => (message === 'initPromise'
   ? initPromise
-  : console.log(`Message not handled: ${message}`));
+  : console.error(`Message not handled: ${message}`));
 };
 
 const messageStore = watchableMessageStore('ACTOR-MESSAGES');

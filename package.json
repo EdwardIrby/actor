@@ -1,6 +1,6 @@
 {
   "name": "@dxworks/actor",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "main": "dist/actor.js",
   "module": "src/actor.js",
   "license": "MIT",
@@ -18,18 +18,23 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dxworks/oss.git"
+    "url": "git+https://github.com/dxworks/actor.git"
   },
   "bugs": {
-    "url": "https://github.com/dxworks/oss/issues"
+    "url": "https://github.com/dxworks/actor/issues"
   },
-  "homepage": "https://github.com/dxworks/oss#readme",
+  "homepage": "https://github.com/dxworks/actor#readme",
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
     "test": "npx poi puppet --test src/actor.spec.js --framework mocha ",
-    "build": "npx rollup -c rollup.config.js"
+    "build": "npx rollup -c rollup.config.js",
+    "lint": "npx eslint ./src",
+    "prepublish": "npm run build"
+  },
+  "engines": {
+    "node": ">=10.15.1"
   },
   "dependencies": {
     "@dxworks/utils": "^1.0.1"
@@ -37,6 +42,11 @@
   "devDependencies": {
     "mocha": "latest",
     "chai": "latest",
+    "babel-eslint": "latest",
+    "eslint": "latest",
+    "eslint-config-airbnb-base": "latest",
+    "eslint-plugin-import": "latest",
+    "eslint-plugin-jsx-a11y": "latest",
     "puppeteer": "latest",
     "poi": "latest",
     "@poi/plugin-puppet": "latest"
