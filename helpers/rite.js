@@ -1,13 +1,12 @@
-import { expect } from 'chai';
+const { assert: t } = require('chai');
 
-const assert = ({
+module.exports.assert = ({
   given = undefined,
   should = '',
   actual = undefined,
   expected = undefined,
-}) => expect(actual)
-  .to
-  .equal(
-    expected,
-    `Given ${given}: should ${should}`,
-  );
+}) => t.strictEqual(
+  actual,
+  expected,
+  `Given ${given}: should ${should}`,
+);
