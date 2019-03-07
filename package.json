@@ -34,9 +34,6 @@
     "check": "npm run lint && npm run test",
     "prepublish": "npm run build"
   },
-  "engines": {
-    "node": ">=10.15.1"
-  },
   "dependencies": {
     "@dxworks/utils": "^1.0.1"
   },
