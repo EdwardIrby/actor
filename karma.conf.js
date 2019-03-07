@@ -1,6 +1,12 @@
+process.env.CHROME_BIN = require('puppeteer').executablePath();
+const resolve = require('rollup-plugin-node-resolve');
+
 module.exports = config => {
   config.set({
-    frameworks: ['mocha'],
+    singleRun: true,
+    browsers: ['ChromeHeadless'],
+    frameworks: ['mocha', 'chai'],
+    reporters: ['mocha'],
     files: [
       { pattern: 'src/**/*.spec.js', watched: false },
     ],
@@ -10,7 +16,6 @@ module.exports = config => {
     rollupPreprocessor: {
       plugins: [
         resolve(),
-        common(),
       ],
       output: {
         format: 'esm',

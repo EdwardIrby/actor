@@ -48,7 +48,13 @@
     "eslint-plugin-import": "latest",
     "eslint-plugin-jsx-a11y": "latest",
     "puppeteer": "latest",
-    "poi": "latest",
-    "@poi/plugin-puppet": "latest"
+    "karma": "latest",
+    "karma-rollup-preprocessor": "latest",
+    "karma-chrome-launcher": "latest",
+    "karma-chai": "latest",
+    "karma-mocha": "latest",
+    "karma-mocha-reporter": "latest",
+    "rollup": "latest",
+    "rollup-plugin-node-resolve": "latest"
   }
 }
