@@ -5,8 +5,6 @@ import {
   initializeQueues,
 } from './actor.js';
 
-const { suite, test, teardown, setup } = window.Mocha;
-
 suite('actor module', () => {
   let hookdown;
   setup(async () => {
@@ -94,27 +92,25 @@ suite('actor module', () => {
     });
     assert.equal(result, 'success');
   });
-  describe('initializeQueues', () => {
-    test('deletes old messages', async () => {
-      const result = await new Promise(async (resolve, reject) => {
-        const ignoring = await lookup('ignoring');
-        ignoring('dummy')();
-        const ignoringActor = () => {
-          const dummy = () => {
-            reject(Error('Message got delivered anyway'));
-          };
-          const base = actor();
-          return message => (
-            message === 'dummy'
-            ? dummy
-            : base(message)
-          );
+  test('deletes old messages', async () => {
+    const result = await new Promise(async (resolve, reject) => {
+      const ignoring = await lookup('ignoring');
+      ignoring('dummy')();
+      const ignoringActor = () => {
+        const dummy = () => {
+          reject(Error('Message got delivered anyway'));
         };
-        await initializeQueues();
-        hookdown = await hookup('ignoring', ignoringActor);
-        setTimeout(resolve, 100, 'success');
-      });
-      assert.deepEqual(result, 'success');
+        const base = actor();
+        return message => (
+          message === 'dummy'
+          ? dummy
+          : base(message)
+        );
+      };
+      await initializeQueues();
+      hookdown = await hookup('ignoring', ignoringActor);
+      setTimeout(resolve, 100, 'success');
     });
+    assert.deepEqual(result, 'success');
   });
 });

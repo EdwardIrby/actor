@@ -28,9 +28,10 @@
     "access": "public"
   },
   "scripts": {
-    "test": "npx poi puppet --test src/actor.spec.js --framework mocha ",
+    "test": "npx karma start ",
     "build": "npx rollup -c rollup.config.js",
     "lint": "npx eslint ./src",
+    "check": "npm run lint && npm run test",
     "prepublish": "npm run build"
   },
   "engines": {

@@ -10,6 +10,11 @@ module.exports = config => {
     files: [
       { pattern: 'src/**/*.spec.js', watched: false },
     ],
+    client: {
+      mocha: {
+        ui: 'tdd',
+      },
+    },
     preprocessors: {
       'src/**/*.spec.js': ['rollup'],
     },
