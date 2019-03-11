@@ -1,5 +1,7 @@
 # testing
 **/coverage
+**/.nyc-coverage
+**/.ci
 
 # misc
 .DS_Store
@@ -14,3 +16,11 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
+
+
+.cirrus.yml
+.eslintignore
+.eslintrc.js
+.gitignore
+karma.conf.js
+rollup.config.js

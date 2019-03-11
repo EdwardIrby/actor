@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import {
   actor,
   hookup,
@@ -7,112 +5,95 @@ import {
   initializeQueues,
 } from './actor.js';
 
-const noop = () => {};
-describe('actor', () => {
+suite('actor module', () => {
   let hookdown;
-  beforeEach(async () => {
+  setup(async () => {
     await initializeQueues();
   });
-  afterEach(async () => {
+  teardown(async () => {
     if (hookdown) {
       await hookdown();
     }
   });
-  it('can hookup, lookup, and send a message', async () => {
-    const ignoringActor = () => {
-      const dummy = () => {
-        noop();
+  test('can hookup, lookup, and send a message', async () => {
+    const result = await new Promise(async resolve => {
+      const ignoringActor = () => {
+        const dummy = () => {
+          resolve('success');
+        };
+        const base = actor();
+        return message => (
+            message === 'dummy'
+            ? dummy
+            : base(message)
+        );
       };
-      const base = actor();
-      return message => (
+      hookdown = await hookup('ignoring', ignoringActor);
+      const ignoring = await lookup('ignoring');
+      ignoring('dummy')();
+    });
+    assert.equal(result, 'success');
+  });
+  test('can call lookup before hookup', async () => {
+    const result = await new Promise(async resolve => {
+      const ignoringActor = () => {
+        const dummy = () => {
+          resolve('success');
+        };
+        const base = actor();
+        return message => (
+            message === 'dummy'
+            ? dummy
+            : base(message)
+        );
+      };
+      const ignoring = await lookup('ignoring');
+      hookdown = await hookup('ignoring', ignoringActor);
+      ignoring('dummy')();
+    });
+    assert.equal(result, 'success');
+  });
+  test('re-traverses messages after hookup', async () => {
+    const result = await new Promise(async resolve => {
+      let ignoringHookdown;
+      const lateActor = () => {
+        const dummy = () => {
+          resolve('success');
+        };
+        const base = actor();
+        return message => (
           message === 'dummy'
           ? dummy
           : base(message)
-      );
-    };
-    hookdown = await hookup('ignoring', ignoringActor);
-    const ignoring = await lookup('ignoring');
-    ignoring('dummy')();
-  });
-  it('can call lookup before hookup', async () => {
-    const ignoringActor = () => {
-      const dummy = () => {
-        noop();
+        );
       };
-      const base = actor();
-      return message => (
+      const ignoringActor = () => {
+        const dummy = () => {
+          setTimeout(async () => {
+            const lateHookdown = await hookup('late', lateActor);
+            hookdown = async () => {
+              await ignoringHookdown();
+              await lateHookdown();
+            };
+          }, 100);
+        };
+        const base = actor();
+        return message => (
           message === 'dummy'
           ? dummy
           : base(message)
-      );
-    };
-    const ignoring = await lookup('ignoring');
-    hookdown = await hookup('ignoring', ignoringActor);
-    ignoring('dummy')();
-  });
-  it('re-traverses messages after hookup', async () => {
-    let ignoringHookdown;
-    const lateActor = () => {
-      const dummy = () => {
-        noop();
+        );
       };
-      const base = actor();
-      return message => (
-        message === 'dummy'
-        ? dummy
-        : base(message)
-      );
-    };
-    const ignoringActor = () => {
-      const dummy = () => {
-        setTimeout(async () => {
-          const lateHookdown = await hookup('late', lateActor);
-          hookdown = async () => {
-            await ignoringHookdown();
-            await lateHookdown();
-          };
-        }, 100);
-      };
-      const base = actor();
-      return message => (
-        message === 'dummy'
-        ? dummy
-        : base(message)
-      );
-    };
-    const late = await lookup('late');
-    late('dummy')();
-    const ignoring = await lookup('ignoring');
-    ignoring('dummy')();
-    ignoringHookdown = await hookup('ignoring', ignoringActor);
+      const late = await lookup('late');
+      late('dummy')();
+      const ignoring = await lookup('ignoring');
+      ignoring('dummy')();
+      ignoringHookdown = await hookup('ignoring', ignoringActor);
+    });
+    assert.equal(result, 'success');
   });
-  it('const assignment finishes before init() is run', async () => {
-    const ignoringActor = () => {
-      const propsProcessed = true;
-      const constructorDone = true;
-      const init = async () => {
-        expect(propsProcessed).to.equal(true);
-        expect(constructorDone).to.equal(true);
-      };
-      const base = actor(init);
-      return message => base(message);
-    };
-    hookdown = await hookup('ignoring', ignoringActor);
-  });
-});
-
-describe('initializeQueues', () => {
-  let hookdown;
-  beforeEach(async () => {
-    await initializeQueues();
-  });
-  afterEach(async () => {
-    if (hookdown) {
-      await hookdown();
-    }
-  });
-  it('deletes old messages', async () => {
-    await new Promise(async (resolve, reject) => {
+  test('deletes old messages', async () => {
+    const result = await new Promise(async (resolve, reject) => {
       const ignoring = await lookup('ignoring');
       ignoring('dummy')();
       const ignoringActor = () => {
@@ -128,7 +109,8 @@ describe('initializeQueues', () => {
       };
       await initializeQueues();
       hookdown = await hookup('ignoring', ignoringActor);
-      setTimeout(resolve, 100);
+      setTimeout(resolve, 100, 'success');
     });
+    assert.deepEqual(result, 'success');
   });
 });

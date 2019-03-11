@@ -1,6 +1,6 @@
 {
   "name": "@dxworks/actor",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "main": "dist/actor.js",
   "module": "src/actor.js",
   "license": "MIT",
@@ -28,13 +28,11 @@
     "access": "public"
   },
   "scripts": {
-    "test": "npx poi puppet --test src/actor.spec.js --framework mocha ",
+    "test": "npx karma start ",
     "build": "npx rollup -c rollup.config.js",
     "lint": "npx eslint ./src",
+    "check": "npm run lint && npm run test",
     "prepublish": "npm run build"
-  },
-  "engines": {
-    "node": ">=10.15.1"
   },
   "dependencies": {
     "@dxworks/utils": "^1.0.1"
@@ -48,7 +46,13 @@
     "eslint-plugin-import": "latest",
     "eslint-plugin-jsx-a11y": "latest",
     "puppeteer": "latest",
-    "poi": "latest",
-    "@poi/plugin-puppet": "latest"
+    "karma": "latest",
+    "karma-rollup-preprocessor": "latest",
+    "karma-chrome-launcher": "latest",
+    "karma-chai": "latest",
+    "karma-mocha": "latest",
+    "karma-mocha-reporter": "latest",
+    "rollup": "latest",
+    "rollup-plugin-node-resolve": "latest"
   }
 }

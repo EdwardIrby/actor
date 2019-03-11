@@ -17,11 +17,12 @@ module.exports = {
     'import',
   ],
   'globals': {
-    'expect': false,
-    'describe': false,
-    'it': false,
-    "beforeEach": false,
-    "afterEach": false,
+    'suite': false,
+    'test': false,
+    'teardown': false,
+    "setup": false,
+    "describe": false,
+    "assert": false
   },
   'rules': {
     'strict': 0,
